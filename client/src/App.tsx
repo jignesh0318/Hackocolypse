@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import PersonalInfo from './pages/PersonalInfo';
+import InstallPrompt from './components/InstallPrompt';
 import './App.css';
 
 interface ProtectedRouteProps {
@@ -114,6 +115,7 @@ function App() {
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <InstallPrompt />
     </Router>
   );
 }
