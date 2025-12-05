@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import Map from '../components/Map';
 import SOSButton from '../components/SOSButton';
 import RouteInfo from '../components/RouteInfo';
+import VoiceSOS from '../components/VoiceSOS';
 import routeTracker from '../services/routeTracker';
 import './Dashboard.css';
 
@@ -294,6 +295,11 @@ const Dashboard = ({ onLogout }: DashboardProps) => {
                         {/* SOS Emergency Button */}
                         <div className="sos-section">
                             <SOSButton onSOSConfirmed={handleSOSConfirmed} />
+                        </div>
+
+                        {/* Voice-Activated SOS */}
+                        <div className="voice-sos-section">
+                            <VoiceSOS onSOSTriggered={handleSOSConfirmed} />
                         </div>
 
                         {/* Route Tracking Info */}

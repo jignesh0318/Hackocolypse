@@ -430,6 +430,14 @@
   overflow: hidden;
 }
 
+/* Voice SOS Section */
+.voice-sos-section {
+  background: white;
+  padding: 1rem;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
 /* Alerts Section */
 .alerts-section {
   background: white;
