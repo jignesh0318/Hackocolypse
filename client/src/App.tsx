@@ -12,7 +12,10 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ element, isAuthenticated }: ProtectedRouteProps) => {
-  return isAuthenticated ? element : <Navigate to="/login" replace />;
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+  return element;
 };
 
 function App() {
