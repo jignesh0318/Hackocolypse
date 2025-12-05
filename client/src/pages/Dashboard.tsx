@@ -1,0 +1,228 @@
+import { useEffect, useState } from 'react';
+import Header from '../components/Header';
+import Map from '../components/Map';
+import './Dashboard.css';
+
+interface DashboardProps {
+    onLogout: () => void;
+}
+
+interface Alert {
+    id: number;
+    location: string;
+    time: string;
+    severity: 'danger' | 'warning' | 'info';
+    message: string;
+}
+
+interface Activity {
+    id: number;
+    action: string;
+    time: string;
+    icon: string;
+}
+
+const Dashboard = ({ onLogout }: DashboardProps) => {
+    const [stats] = useState({
+        safeZones: 124,
+        alertZones: 45,
+        dangerZones: 12,
+        activeUsers: 1248,
+        reportsToday: 23,
+        avgSafetyScore: 72
+    });
+
+    const [alerts] = useState<Alert[]>([
+        { id: 1, location: 'Connaught Place', time: '10 mins ago', severity: 'danger', message: 'Multiple reports of harassment' },
+        { id: 2, location: 'Saket Metro', time: '25 mins ago', severity: 'warning', message: 'Poor lighting reported' },
+        { id: 3, location: 'Hauz Khas', time: '1 hour ago', severity: 'info', message: 'Increased police presence' },
+        { id: 4, location: 'Lajpat Nagar', time: '2 hours ago', severity: 'warning', message: 'Crowded area alert' }
+    ]);
+
+    const [activities] = useState<Activity[]>([
+        { id: 1, action: 'Reported unsafe zone in Karol Bagh', time: '5 mins ago', icon: '📍' },
+        { id: 2, action: 'Safety score updated for Rohini', time: '15 mins ago', icon: '📊' },
+        { id: 3, action: 'New safe zone verified in Dwarka', time: '1 hour ago', icon: '✅' },
+        { id: 4, action: 'Alert issued for Nehru Place', time: '2 hours ago', icon: '⚠️' }
+    ]);
+
+    return (
+        <div className="dashboard-page">
+            <Header onLogout={onLogout} />
+            
+            <div className="dashboard-container">
+                <div className="dashboard-header">
+                    <div>
+                        <h1>Dashboard</h1>
+                        <p className="dashboard-subtitle">Real-time safety insights and analytics</p>
+                    </div>
+                    <div className="dashboard-actions">
+                        <button className="btn-primary">
+                            <span>📝</span> Report Issue
+                        </button>
+                        <button className="btn-secondary">
+                            <span>📥</span> Export Data
+                        </button>
+                    </div>
+                </div>
+
+                {/* Stats Grid */}
+                <div className="stats-grid">
+                    <div className="stat-card safe">
+                        <div className="stat-icon">✅</div>
+                        <div className="stat-info">
+                            <h3>{stats.safeZones}</h3>
+                            <p>Safe Zones</p>
+                            <span className="stat-trend up">+12% this week</span>
+                        </div>
+                    </div>
+                    
+                    <div className="stat-card warning">
+                        <div className="stat-icon">⚠️</div>
+                        <div className="stat-info">
+                            <h3>{stats.alertZones}</h3>
+                            <p>Alert Zones</p>
+                            <span className="stat-trend">Monitoring</span>
+                        </div>
+                    </div>
+                    
+                    <div className="stat-card danger">
+                        <div className="stat-icon">🚨</div>
+                        <div className="stat-info">
+                            <h3>{stats.dangerZones}</h3>
+                            <p>Danger Zones</p>
+                            <span className="stat-trend down">-3 since yesterday</span>
+                        </div>
+                    </div>
+                    
+                    <div className="stat-card users">
+                        <div className="stat-icon">👥</div>
+                        <div className="stat-info">
+                            <h3>{stats.activeUsers.toLocaleString()}</h3>
+                            <p>Active Users</p>
+                            <span className="stat-trend up">+234 today</span>
+                        </div>
+                    </div>
+
+                    <div className="stat-card reports">
+                        <div className="stat-icon">📊</div>
+                        <div className="stat-info">
+                            <h3>{stats.reportsToday}</h3>
+                            <p>Reports Today</p>
+                            <span className="stat-trend">Last 24 hours</span>
+                        </div>
+                    </div>
+
+                    <div className="stat-card score">
+                        <div className="stat-icon">🎯</div>
+                        <div className="stat-info">
+                            <h3>{stats.avgSafetyScore}%</h3>
+                            <p>Avg Safety Score</p>
+                            <span className="stat-trend up">+5% improvement</span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Main Content Grid */}
+                <div className="dashboard-content">
+                    {/* Map Section */}
+                    <div className="content-main">
+                        <div className="map-section">
+                            <div className="section-header">
+                                <h2>Live Safety Map</h2>
+                                <div className="map-controls">
+                                    <button className="map-control-btn active">All Zones</button>
+                                    <button className="map-control-btn">Safe</button>
+                                    <button className="map-control-btn">Alert</button>
+                                    <button className="map-control-btn">Danger</button>
+                                </div>
+                            </div>
+                            <div className="map-wrapper">
+                                <Map />
+                            </div>
+                        </div>
+
+                        {/* Recent Activity */}
+                        <div className="activity-section">
+                            <h3>Recent Activity</h3>
+                            <div className="activity-list">
+                                {activities.map(activity => (
+                                    <div key={activity.id} className="activity-item">
+                                        <span className="activity-icon">{activity.icon}</span>
+                                        <div className="activity-content">
+                                            <p>{activity.action}</p>
+                                            <span className="activity-time">{activity.time}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Sidebar */}
+                    <div className="dashboard-sidebar">
+                        {/* Alerts */}
+                        <div className="alerts-section">
+                            <h3>🔔 Active Alerts</h3>
+                            <div className="alerts-list">
+                                {alerts.map(alert => (
+                                    <div key={alert.id} className={`alert-card ${alert.severity}`}>
+                                        <div className="alert-header">
+                                            <strong>{alert.location}</strong>
+                                            <span className="alert-time">{alert.time}</span>
+                                        </div>
+                                        <p className="alert-message">{alert.message}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Quick Actions */}
+                        <div className="quick-actions">
+                            <h3>⚡ Quick Actions</h3>
+                            <button className="action-btn">
+                                <span>🚨</span>
+                                <div>
+                                    <strong>Emergency SOS</strong>
+                                    <small>Send immediate alert</small>
+                                </div>
+                            </button>
+                            <button className="action-btn">
+                                <span>📍</span>
+                                <div>
+                                    <strong>Check My Location</strong>
+                                    <small>View safety score</small>
+                                </div>
+                            </button>
+                            <button className="action-btn">
+                                <span>👁️</span>
+                                <div>
+                                    <strong>Share Live Location</strong>
+                                    <small>With trusted contacts</small>
+                                </div>
+                            </button>
+                            <button className="action-btn">
+                                <span>📞</span>
+                                <div>
+                                    <strong>Emergency Contacts</strong>
+                                    <small>Police, Ambulance</small>
+                                </div>
+                            </button>
+                        </div>
+
+                        {/* Safety Tips */}
+                        <div className="safety-tips">
+                            <h3>💡 Safety Tip</h3>
+                            <div className="tip-card">
+                                <p>"Always share your live location with trusted contacts when traveling through unfamiliar areas, especially after dark."</p>
+                                <button className="tip-btn">Next Tip →</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Dashboard;

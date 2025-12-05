@@ -1,0 +1,43 @@
+.leaflet-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.popup-content {
+  padding: 0.5rem;
+  min-width: 200px;
+}
+
+.popup-content h3 {
+  margin-bottom: 0.5rem;
+  color: var(--dark);
+  font-size: 1.1rem;
+}
+
+.safety-score {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 0.5rem 0;
+}
+
+.safety-label {
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.8rem;
+  margin: 0.5rem 0;
+}
+
+.factors {
+  margin-top: 0.8rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid #ddd;
+}
+
+.factors p {
+  margin: 0.3rem 0;
+  font-size: 0.9rem;
+  color: #555;
+}

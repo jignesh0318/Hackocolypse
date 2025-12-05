@@ -1,0 +1,166 @@
+.home-page {
+  min-height: 100vh;
+  color: #0f172a;
+}
+
+.home-content {
+  padding: 2rem 1.5rem 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.hero-title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.map-section,
+.zones-section {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.map-section h2,
+.zones-section h2 {
+  margin-bottom: 1rem;
+  color: #111827;
+}
+
+.map-wrapper {
+  height: 500px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.zones-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.zones-section li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+@media (max-width: 1024px) {
+  .home-content {
+    padding: 1.5rem 1rem 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .home-content {
+    padding: 1rem 0.75rem 2rem;
+  }
+  
+  .hero {
+    margin-bottom: 1.5rem;
+  }
+  
+  .hero-title {
+    font-size: 1.9rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .map-section,
+  .zones-section {
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 12px;
+  }
+  
+  .map-section h2,
+  .zones-section h2 {
+    font-size: 1.1rem;
+  }
+
+  .map-wrapper {
+    height: 360px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-page {
+    color: #0f172a;
+  }
+  
+  .home-content {
+    padding: 0.75rem 0.5rem 1.5rem;
+  }
+  
+  .hero {
+    margin-bottom: 1rem;
+  }
+  
+  .hero-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 0.3rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .map-section,
+  .zones-section {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 0.75rem;
+    margin-top: 0.75rem;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  }
+  
+  .map-section h2,
+  .zones-section h2 {
+    margin-bottom: 0.75rem;
+    color: #111827;
+    font-size: 1rem;
+  }
+  
+  .map-wrapper {
+    height: 280px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .zones-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .zones-section li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .zones-section li h3 {
+    font-size: 0.9rem;
+  }
+  
+  .zones-section li p {
+    font-size: 0.8rem;
+  }
+}
