@@ -10,7 +10,7 @@ interface VoiceSOSProps {
 const VoiceSOS = ({ onSOSTriggered, keywords = ['help me', 'emergency', 'code red'] }: VoiceSOSProps) => {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState('');
-  const [status, setStatus] = useState<'idle' | 'listening' | 'error'>('idle');
+  const [status, setStatus] = useState<'idle' | 'listening' | 'error' | 'stopped'>('idle');
   const [matchedKeyword, setMatchedKeyword] = useState('');
   const [showSettings, setShowSettings] = useState(false);
   const [customKeywords, setCustomKeywords] = useState<string[]>(keywords);
@@ -18,6 +18,7 @@ const VoiceSOS = ({ onSOSTriggered, keywords = ['help me', 'emergency', 'code re
   const [isSupported, setIsSupported] = useState(false);
   const [volume, setVolume] = useState(0);
   const micAnimationRef = useRef<HTMLDivElement>(null);
+  const volumeBarRef = useRef<HTMLDivElement>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
 
@@ -26,12 +27,16 @@ const VoiceSOS = ({ onSOSTriggered, keywords = ['help me', 'emergency', 'code re
     setIsSupported(voiceSOSService.isSupported());
 
     // Setup voice SOS event handlers
-    voiceSOSService.onStatusChange = (newStatus) => {
+    voiceSOSService.onStatusChange = (newStatus: 'listening' | 'stopped' | 'error') => {
       setStatus(newStatus);
       setIsListening(newStatus === 'listening');
     };
 
-    voiceSOSService.onMatch = (keyword) => {
+    voiceSOSService.onTranscript = (text: string) => {
+      setTranscript(text);
+    };
+
+    voiceSOSService.onMatch = (keyword: string) => {
       setMatchedKeyword(keyword);
       console.log('🚨 SOS TRIGGERED BY VOICE:', keyword);
       
@@ -45,7 +50,7 @@ const VoiceSOS = ({ onSOSTriggered, keywords = ['help me', 'emergency', 'code re
       }, 1000);
     };
 
-    voiceSOSService.onError = (error) => {
+    voiceSOSService.onError = (error: string) => {
       console.error('Voice recognition error:', error);
       setStatus('error');
     };
@@ -159,6 +164,12 @@ const VoiceSOS = ({ onSOSTriggered, keywords = ['help me', 'emergency', 'code re
     handleLoadSavedKeywords();
   }, []);
 
+  useEffect(() => {
+    if (volumeBarRef.current) {
+      volumeBarRef.current.style.setProperty('--volume-width', `${volume}%`);
+    }
+  }, [volume]);
+
   if (!isSupported) {
     return (
       <div className="voice-sos-container">
@@ -190,15 +201,13 @@ const VoiceSOS = ({ onSOSTriggered, keywords = ['help me', 'emergency', 'code re
           <div 
             ref={micAnimationRef}
             className={`microphone-circle ${isListening ? 'active' : ''} ${matchedKeyword ? 'matched' : ''}`}
-            style={{
-              '--volume': `${volume}%`
-            } as React.CSSProperties & { '--volume': string }}
+            data-volume={Math.round(volume)}
           >
             <div className="mic-icon">🎤</div>
             {isListening && (
               <>
                 <div className="pulse-ring"></div>
-                <div className="pulse-ring" style={{ animationDelay: '0.5s' }}></div>
+                <div className="pulse-ring pulse-ring-delay"></div>
               </>
             )}
           </div>
@@ -227,7 +236,10 @@ const VoiceSOS = ({ onSOSTriggered, keywords = ['help me', 'emergency', 'code re
           {/* Volume Indicator */}
           {isListening && (
             <div className="volume-meter">
-              <div className="volume-bar" style={{ width: `${volume}%` }}></div>
+              <div 
+                ref={volumeBarRef}
+                className="volume-bar"
+              ></div>
             </div>
           )}
 

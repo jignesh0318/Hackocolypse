@@ -18,9 +18,10 @@ class VoiceSOSService {
   private language = 'en-US';
   private continuous = true;
   private interimResults = true;
-  private onMatch: ((keyword: string) => void) | null = null;
-  private onError: ((error: string) => void) | null = null;
-  private onStatusChange: ((status: 'listening' | 'stopped' | 'error') => void) | null = null;
+  public onMatch: ((keyword: string) => void) | null = null;
+  public onError: ((error: string) => void) | null = null;
+  public onStatusChange: ((status: 'listening' | 'stopped' | 'error') => void) | null = null;
+  public onTranscript: ((text: string) => void) | null = null;
   private matchThreshold = 0.85; // 85% confidence for keyword match
 
   constructor(options: VoiceSOSOptions = {}) {

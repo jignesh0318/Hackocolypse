@@ -162,6 +162,10 @@
   animation: ripple 1.5s infinite;
 }
 
+.pulse-ring-delay {
+  animation-delay: 0.5s;
+}
+
 @keyframes ripple {
   0% {
     transform: scale(1);
@@ -244,6 +248,7 @@
   background: linear-gradient(90deg, #4caf50, #ffc107, #ff6b6b);
   transition: width 0.1s ease-out;
   border-radius: 10px;
+  width: var(--volume-width, 0%);
 }
 
 /* Control Buttons */
