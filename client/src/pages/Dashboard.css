@@ -33,6 +33,85 @@
   font-size: 1rem;
 }
 
+/* Status Indicators */
+.status-indicators {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.battery-indicator,
+.tracking-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.battery-indicator {
+  border: 2px solid #4caf50;
+  color: #4caf50;
+}
+
+.battery-indicator.warning {
+  border-color: #ff9800;
+  color: #ff9800;
+}
+
+.battery-indicator.low {
+  border-color: #f44336;
+  color: #f44336;
+  animation: battery-pulse 2s infinite;
+}
+
+.battery-icon {
+  font-size: 1.2rem;
+}
+
+.battery-text {
+  font-size: 0.9rem;
+}
+
+@keyframes battery-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(0.95);
+  }
+}
+
+.tracking-indicator {
+  border: 2px solid #2196f3;
+  color: #2196f3;
+}
+
+.tracking-pulse {
+  animation: pulse-tracking 2s infinite;
+  font-size: 1.2rem;
+}
+
+@keyframes pulse-tracking {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.tracking-text {
+  font-size: 0.9rem;
+}
+
 .dashboard-actions {
   display: flex;
   gap: 1rem;
@@ -340,6 +419,15 @@
   padding: 1.5rem;
   border-radius: 20px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Route Section */
+.route-section {
+  background: white;
+  padding: 0;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
 }
 
 /* Alerts Section */

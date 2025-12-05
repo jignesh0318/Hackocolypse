@@ -108,8 +108,8 @@ const SOSButton = ({ onSOSConfirmed }: SOSButtonProps) => {
                 cy="50"
                 r="45"
                 style={{
-                  strokeDasharray: `${(countdown / 5) * 283} 283`,
-                }}
+                  '--progress': `${(countdown / 5) * 283}px`,
+                } as React.CSSProperties & { '--progress': string }}
               />
             </svg>
             <div className="countdown-number">{countdown}</div>

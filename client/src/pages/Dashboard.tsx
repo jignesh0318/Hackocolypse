@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Map from '../components/Map';
 import SOSButton from '../components/SOSButton';
+import RouteInfo from '../components/RouteInfo';
+import routeTracker from '../services/routeTracker';
 import './Dashboard.css';
 
 interface DashboardProps {
@@ -32,6 +34,32 @@ const Dashboard = ({ onLogout }: DashboardProps) => {
         reportsToday: 23,
         avgSafetyScore: 72
     });
+
+    const [batteryLevel, setBatteryLevel] = useState<number | null>(null);
+    const [isTracking, setIsTracking] = useState(false);
+
+    // Initialize route tracking when component mounts
+    useEffect(() => {
+        // Start route tracking
+        routeTracker.startTracking();
+        setIsTracking(true);
+
+        // Update battery level periodically
+        const updateBattery = async () => {
+            const level = await routeTracker.getBatteryLevel();
+            setBatteryLevel(level);
+        };
+        
+        updateBattery();
+        const batteryInterval = setInterval(updateBattery, 30000); // Update every 30 seconds
+
+        // Cleanup on unmount
+        return () => {
+            clearInterval(batteryInterval);
+            // Keep tracking active even when leaving dashboard
+            // routeTracker.stopTracking();
+        };
+    }, []);
 
     const [alerts] = useState<Alert[]>([
         { id: 1, location: 'Connaught Place', time: '10 mins ago', severity: 'danger', message: 'Multiple reports of harassment' },
@@ -123,6 +151,24 @@ const Dashboard = ({ onLogout }: DashboardProps) => {
                     <div>
                         <h1>Dashboard</h1>
                         <p className="dashboard-subtitle">Real-time safety insights and analytics</p>
+                        
+                        {/* Battery and Tracking Status */}
+                        <div className="status-indicators">
+                            {batteryLevel !== null && (
+                                <div className={`battery-indicator ${batteryLevel <= 10 ? 'low' : batteryLevel <= 20 ? 'warning' : ''}`}>
+                                    <span className="battery-icon">
+                                        {batteryLevel <= 10 ? '🔋' : batteryLevel <= 20 ? '🪫' : '🔋'}
+                                    </span>
+                                    <span className="battery-text">{batteryLevel.toFixed(0)}%</span>
+                                </div>
+                            )}
+                            {isTracking && (
+                                <div className="tracking-indicator">
+                                    <span className="tracking-pulse">📍</span>
+                                    <span className="tracking-text">Route Tracking Active</span>
+                                </div>
+                            )}
+                        </div>
                     </div>
                     <div className="dashboard-actions">
                         <button className="btn-primary">
@@ -248,6 +294,11 @@ const Dashboard = ({ onLogout }: DashboardProps) => {
                         {/* SOS Emergency Button */}
                         <div className="sos-section">
                             <SOSButton onSOSConfirmed={handleSOSConfirmed} />
+                        </div>
+
+                        {/* Route Tracking Info */}
+                        <div className="route-section">
+                            <RouteInfo />
                         </div>
 
                         {/* Quick Actions */}
