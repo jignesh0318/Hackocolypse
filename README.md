@@ -47,57 +47,68 @@ ai-safety-zones-app
 
 ### Prerequisites
 
-- Node.js
-- MongoDB
+- Node.js (v14 or higher)
 - npm or yarn
 
 ### Installation
 
 1. Clone the repository:
-   ```
-   git clone <repository-url>
-   cd ai-safety-zones-app
+   ```bash
+   git clone https://github.com/jignesh0318/Hackocolypse.git
+   cd Hackocolypse
    ```
 
-2. Set up the backend:
-   - Navigate to the server directory:
-     ```
-     cd server
-     ```
-   - Install dependencies:
-     ```
-     npm install
-     ```
-   - Create a `.env` file based on the `.env.example` file and configure your database connection.
+2. Install root dependencies:
+   ```bash
+   npm install
+   ```
 
 3. Set up the frontend:
-   - Navigate to the client directory:
-     ```
-     cd ../client
-     ```
-   - Install dependencies:
-     ```
-     npm install
-     ```
+   ```bash
+   cd client
+   npm install
+   npm run build
+   ```
 
 ### Running the Application
 
-1. Start the backend server:
-   ```
-   cd server
-   npm start
-   ```
+#### Frontend (Development):
+```bash
+cd client
+npm run dev
+```
+The app will be available at `http://localhost:5173/`
 
-2. Start the frontend application:
-   ```
-   cd ../client
-   npm run dev
-   ```
+#### Backend (Optional):
+```bash
+cd server
+npm install
+npm run dev
+```
 
-### Usage
+### Features & Flow
 
-- Access the application in your browser at `http://localhost:3000`.
-- Users can register, log in, report unsafe zones, and view the list of reported zones.
+1. **Login** → Enter any email/password (demo mode)
+2. **Safety Profile Setup** → Fill emergency contacts, medical info, home address
+3. **Home Page** → View interactive safety map with color-coded zones (Red/Yellow/Green based on safety scores)
+4. **Dashboard** → Real-time safety insights, active alerts, quick SOS actions, emergency tips
+5. **Safety Profile** → Manage emergency contacts, medical details, safety preferences
+
+### User Data
+
+- **Login token** stored in `localStorage` (persists across sessions)
+- **Profile info** stored in `localStorage` (name, contacts, medical details, address)
+- **Zone data** from mock API (5 safety zones in New Delhi area)
+
+### Responsive Design
+
+✅ Desktop (1400px+) — Full layout with sidebar
+✅ Tablet (768px-1024px) — Stacked with 2-column stats
+✅ Mobile (480px) — Single column, touch-optimized
+
+### Logout
+
+Click "Logout" button in header to clear token and return to login page.
 
 ## Contributing
 
