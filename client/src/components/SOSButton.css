@@ -1,0 +1,291 @@
+.sos-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.sos-button {
+  background: linear-gradient(135deg, #ff4757 0%, #ff6348 100%);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 10px 40px rgba(255, 71, 87, 0.5);
+  transition: all 0.3s;
+  font-weight: 700;
+  position: relative;
+  overflow: hidden;
+}
+
+.sos-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}
+
+.sos-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 15px 50px rgba(255, 71, 87, 0.6);
+}
+
+.sos-button:active {
+  transform: scale(0.95);
+}
+
+.sos-icon {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  animation: shake 0.5s infinite;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.sos-text {
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+}
+
+/* SOS Active State */
+.sos-active {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.countdown-circle {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.countdown-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.countdown-bg {
+  fill: none;
+  stroke: #f0f0f0;
+  stroke-width: 8;
+}
+
+.countdown-progress {
+  fill: none;
+  stroke: #ff4757;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dasharray 1s linear;
+  animation: pulse-stroke 1s infinite;
+}
+
+@keyframes pulse-stroke {
+  0%, 100% {
+    stroke: #ff4757;
+  }
+  50% {
+    stroke: #ff6348;
+  }
+}
+
+.countdown-number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 5rem;
+  font-weight: 800;
+  color: #ff4757;
+  animation: countdown-pulse 1s infinite;
+}
+
+@keyframes countdown-pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+.sos-active-text {
+  text-align: center;
+}
+
+.sos-active-text h3 {
+  font-size: 1.8rem;
+  color: #ff4757;
+  margin-bottom: 0.5rem;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 49%, 100% {
+    opacity: 1;
+  }
+  50%, 99% {
+    opacity: 0.3;
+  }
+}
+
+.sos-active-text p {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 0.3rem;
+}
+
+.buzzer-text {
+  color: #ff6348;
+  font-weight: 600;
+  animation: buzz-flash 0.5s infinite;
+}
+
+@keyframes buzz-flash {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.cancel-button {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 1.2rem 3rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.05em;
+}
+
+.cancel-button:hover {
+  background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.cancel-button:active {
+  transform: translateY(0);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .sos-button {
+    width: 120px;
+    height: 120px;
+  }
+
+  .sos-icon {
+    font-size: 2.5rem;
+  }
+
+  .sos-text {
+    font-size: 0.9rem;
+  }
+
+  .countdown-circle {
+    width: 160px;
+    height: 160px;
+  }
+
+  .countdown-number {
+    font-size: 4rem;
+  }
+
+  .sos-active-text h3 {
+    font-size: 1.5rem;
+  }
+
+  .sos-active-text p {
+    font-size: 1rem;
+  }
+
+  .cancel-button {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sos-button {
+    width: 100px;
+    height: 100px;
+  }
+
+  .sos-icon {
+    font-size: 2rem;
+  }
+
+  .sos-text {
+    font-size: 0.8rem;
+  }
+
+  .countdown-circle {
+    width: 140px;
+    height: 140px;
+  }
+
+  .countdown-number {
+    font-size: 3rem;
+  }
+
+  .sos-active-text h3 {
+    font-size: 1.3rem;
+  }
+
+  .cancel-button {
+    padding: 0.9rem 1.5rem;
+    font-size: 0.95rem;
+  }
+}

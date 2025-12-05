@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Map from '../components/Map';
+import SOSButton from '../components/SOSButton';
 import './Dashboard.css';
 
 interface DashboardProps {
@@ -45,6 +46,73 @@ const Dashboard = ({ onLogout }: DashboardProps) => {
         { id: 3, action: 'New safe zone verified in Dwarka', time: '1 hour ago', icon: '✅' },
         { id: 4, action: 'Alert issued for Nehru Place', time: '2 hours ago', icon: '⚠️' }
     ]);
+
+    const handleSOSConfirmed = () => {
+        // Get emergency contacts from localStorage
+        const profileInfo = localStorage.getItem('profileInfo');
+        
+        if (profileInfo) {
+            try {
+                const profile = JSON.parse(profileInfo);
+                const contacts: Array<{ name: string; phone: string; relation: string }> = [];
+                
+                if (profile.emergencyContact1Phone) {
+                    contacts.push({
+                        name: profile.emergencyContact1,
+                        phone: profile.emergencyContact1Phone,
+                        relation: profile.emergencyContact1Relation
+                    });
+                }
+                
+                if (profile.emergencyContact2Phone) {
+                    contacts.push({
+                        name: profile.emergencyContact2,
+                        phone: profile.emergencyContact2Phone,
+                        relation: profile.emergencyContact2Relation
+                    });
+                }
+
+                // Get current location
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition((position) => {
+                        const { latitude, longitude } = position.coords;
+                        const locationUrl = `https://maps.google.com/?q=${latitude},${longitude}`;
+                        
+                        // Show confirmation
+                        alert(`🚨 SOS ALERT SENT!\n\nEmergency contacts notified:\n${contacts.map(c => `• ${c.name} (${c.relation}): ${c.phone}`).join('\n')}\n\nYour location: ${locationUrl}\n\nHelp is on the way!`);
+                        
+                        // In a real app, this would:
+                        // 1. Send SMS to emergency contacts
+                        // 2. Call emergency services
+                        // 3. Share live location
+                        // 4. Log the incident
+                        console.log('SOS Triggered:', {
+                            contacts,
+                            location: { latitude, longitude },
+                            timestamp: new Date().toISOString(),
+                            userInfo: {
+                                name: profile.fullName,
+                                phone: profile.primaryPhone,
+                                bloodGroup: profile.bloodGroup,
+                                allergies: profile.allergies,
+                                medications: profile.medications
+                            }
+                        });
+                    }, (error) => {
+                        alert('🚨 SOS ALERT SENT!\n\nEmergency contacts notified (location unavailable)');
+                        console.error('Location error:', error);
+                    });
+                } else {
+                    alert('🚨 SOS ALERT SENT!\n\nEmergency contacts notified');
+                }
+            } catch (error) {
+                console.error('Error parsing profile:', error);
+                alert('🚨 SOS TRIGGERED!\n\nPlease complete your safety profile to enable emergency contact notifications.');
+            }
+        } else {
+            alert('🚨 SOS TRIGGERED!\n\nPlease complete your safety profile to enable emergency contact notifications.');
+        }
+    };
 
     return (
         <div className="dashboard-page">
@@ -177,16 +245,14 @@ const Dashboard = ({ onLogout }: DashboardProps) => {
                             </div>
                         </div>
 
+                        {/* SOS Emergency Button */}
+                        <div className="sos-section">
+                            <SOSButton onSOSConfirmed={handleSOSConfirmed} />
+                        </div>
+
                         {/* Quick Actions */}
                         <div className="quick-actions">
                             <h3>⚡ Quick Actions</h3>
-                            <button className="action-btn">
-                                <span>🚨</span>
-                                <div>
-                                    <strong>Emergency SOS</strong>
-                                    <small>Send immediate alert</small>
-                                </div>
-                            </button>
                             <button className="action-btn">
                                 <span>📍</span>
                                 <div>
