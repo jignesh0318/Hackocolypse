@@ -1,9 +1,23 @@
-// Service Worker for Safety Zones PWA
-const CACHE_VERSION = 'v1';
+// Service Worker for Safety Zones PWA - Enhanced Offline Support
+const CACHE_VERSION = 'v3';
 const CACHE_NAME = 'safety-zones-' + CACHE_VERSION;
 const RUNTIME_CACHE = 'safety-zones-runtime-' + CACHE_VERSION;
+const MAP_CACHE = 'safety-zones-maps-' + CACHE_VERSION;
 
-const ASSETS_TO_CACHE = ['/', '/index.html', '/manifest.json'];
+const ASSETS_TO_CACHE = [
+  '/',
+  '/index.html',
+  '/manifest.json',
+  // Add more critical assets for offline
+];
+
+// Resources that should work offline
+const OFFLINE_PAGES = [
+  '/',
+  '/dashboard',
+  '/login',
+  '/personal-info',
+];
 
 // Install event
 self.addEventListener('install', function(event) {
@@ -39,20 +53,81 @@ self.addEventListener('activate', function(event) {
   );
 });
 
-// Fetch event - Network first strategy
+// Fetch event - Cache first for assets, Network first for API
 self.addEventListener('fetch', function(event) {
   var request = event.request;
+  var url = new URL(request.url);
   
   // Only handle GET requests
   if (request.method !== 'GET') return;
   
-  // Skip cross-origin requests
-  if (!request.url.startsWith(self.location.origin)) return;
+  // Skip cross-origin requests except maps
+  if (!request.url.startsWith(self.location.origin) && 
+      !request.url.includes('googleapis.com')) {
+    return;
+  }
+
+  // Cache strategy for map tiles
+  if (request.url.includes('maps.googleapis.com') || request.url.includes('maps.gstatic.com')) {
+    event.respondWith(
+      caches.open(MAP_CACHE).then(function(cache) {
+        return cache.match(request).then(function(cachedResponse) {
+          if (cachedResponse) {
+            console.log('🗺️ Serving map tile from cache');
+            return cachedResponse;
+          }
+          return fetch(request).then(function(response) {
+            if (response.ok) {
+              cache.put(request, response.clone());
+            }
+            return response;
+          }).catch(function() {
+            // Return placeholder for missing map tiles
+            return new Response('', { status: 200 });
+          });
+        });
+      })
+    );
+    return;
+  }
   
+  // API requests - Network first, cache fallback
+  if (request.url.includes('/api/')) {
+    event.respondWith(
+      fetch(request)
+        .then(function(response) {
+          if (response.ok) {
+            var cache_clone = response.clone();
+            caches.open(RUNTIME_CACHE).then(function(cache) {
+              cache.put(request, cache_clone);
+            });
+          }
+          return response;
+        })
+        .catch(function() {
+          console.log('📡 API offline, trying cache');
+          return caches.match(request).then(function(cached) {
+            return cached || new Response(JSON.stringify({
+              offline: true,
+              message: 'Data will sync when connection is restored'
+            }), {
+              headers: { 'Content-Type': 'application/json' }
+            });
+          });
+        })
+    );
+    return;
+  }
+  
+  // Static assets - Cache first
   event.respondWith(
-    fetch(request)
-      .then(function(response) {
-        // Cache successful responses
+    caches.match(request).then(function(cachedResponse) {
+      if (cachedResponse) {
+        console.log('✅ Serving from cache:', request.url);
+        return cachedResponse;
+      }
+      
+      return fetch(request).then(function(response) {
         if (response.ok) {
           var cache_clone = response.clone();
           caches.open(RUNTIME_CACHE).then(function(cache) {
@@ -60,37 +135,26 @@ self.addEventListener('fetch', function(event) {
           });
         }
         return response;
-      })
-      .catch(function(error) {
-        console.log('📡 Network request failed, trying cache:', request.url);
+      }).catch(function(error) {
+        console.log('📡 Network failed for:', request.url);
         
-        // Try to get from cache
-        return caches.match(request).then(function(cachedResponse) {
-          if (cachedResponse) {
-            console.log('✅ Serving from cache:', request.url);
-            return cachedResponse;
-          }
-          
-          // For navigation requests, return offline page
-          if (request.mode === 'navigate') {
-            return caches.match('/index.html').then(function(response) {
-              return response || new Response('Offline - Please check your connection', {
-                status: 503,
-                statusText: 'Service Unavailable',
-                headers: new Headers({
-                  'Content-Type': 'text/plain'
-                })
-              });
+        // For navigation, return index.html
+        if (request.mode === 'navigate') {
+          return caches.match('/index.html').then(function(response) {
+            return response || new Response('Offline - App cached for offline use', {
+              status: 503,
+              statusText: 'Service Unavailable',
+              headers: new Headers({ 'Content-Type': 'text/plain' })
             });
-          }
-          
-          console.warn('⚠️  Resource not found:', request.url);
-          return new Response('Not found', { 
-            status: 404,
-            statusText: 'Not Found'
           });
+        }
+        
+        return new Response('Resource unavailable offline', { 
+          status: 404,
+          statusText: 'Not Found'
         });
-      })
+      });
+    })
   );
 });
 

@@ -37,3 +37,16 @@ export const getReports = async () => {
     const response = await axios.get(`${API_URL}/reports`);
     return response.data;
 };
+
+// Send SOS SMS to emergency contacts
+export const sendSOSAlert = async (payload: {
+    contacts: Array<{ name: string; phone: string; relation?: string }>;
+    location?: { latitude?: number; longitude?: number; url?: string };
+    user?: { name?: string; phone?: string; bloodGroup?: string; allergies?: string; medications?: string };
+    reason?: string;
+    triggeredAt?: string;
+    evidenceUrl?: string;
+}) => {
+    const response = await axios.post(`${API_URL}/alerts/sos`, payload);
+    return response.data;
+};

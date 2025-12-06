@@ -107,9 +107,7 @@ const SOSButton = ({ onSOSConfirmed }: SOSButtonProps) => {
                 cx="50"
                 cy="50"
                 r="45"
-                style={{
-                  '--progress': `${(countdown / 5) * 283}px`,
-                } as React.CSSProperties & { '--progress': string }}
+                data-progress={countdown}
               />
             </svg>
             <div className="countdown-number">{countdown}</div>

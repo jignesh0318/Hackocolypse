@@ -1,0 +1,203 @@
+.risk-zone-alert {
+  position: fixed;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 12px 20px;
+  border: 3px solid #44ff44;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
+              0 0 20px rgba(68, 255, 68, 0.3);
+  z-index: 9999;
+  min-width: 350px;
+  animation: slideDownFade 0.5s ease-out;
+  transition: all 0.3s ease;
+}
+
+@keyframes slideDownFade {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.risk-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.risk-emoji {
+  font-size: 32px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.1);
+    filter: brightness(1.3);
+  }
+}
+
+.risk-info {
+  flex: 1;
+}
+
+.risk-level {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 10px currentColor;
+}
+
+.risk-details {
+  font-size: 13px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nearby-risks {
+  background: rgba(255, 68, 68, 0.2);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+  border: 1px solid rgba(255, 68, 68, 0.4);
+  animation: blink 2s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.offline-risk-notice {
+  margin-top: 12px;
+  padding: 10px;
+  background: rgba(30, 144, 255, 0.15);
+  border-radius: 10px;
+  border: 1px solid rgba(30, 144, 255, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.offline-icon {
+  font-size: 24px;
+}
+
+.offline-text {
+  flex: 1;
+}
+
+.offline-text strong {
+  display: block;
+  color: #1e90ff;
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+
+.offline-text small {
+  display: block;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 11px;
+}
+
+.gps-status {
+  margin-top: 8px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+  padding: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .risk-zone-alert {
+    top: 60px;
+    left: 10px;
+    right: 10px;
+    transform: none;
+    min-width: unset;
+    padding: 10px 15px;
+  }
+
+  .risk-emoji {
+    font-size: 28px;
+  }
+
+  .risk-level {
+    font-size: 14px;
+  }
+
+  .risk-details {
+    font-size: 12px;
+  }
+
+  .nearby-risks {
+    padding: 3px 8px;
+    font-size: 11px;
+  }
+}
+
+/* High risk alert styling */
+.risk-zone-alert.risk-high {
+  border-color: #ff4444 !important;
+  box-shadow: 0 8px 32px rgba(255, 68, 68, 0.4),
+              0 0 30px rgba(255, 68, 68, 0.5);
+  animation: urgentPulse 1.5s infinite;
+}
+
+.risk-zone-alert.risk-high .risk-level {
+  color: #ff4444;
+}
+
+@keyframes urgentPulse {
+  0%, 100% {
+    box-shadow: 0 8px 32px rgba(255, 68, 68, 0.4),
+                0 0 30px rgba(255, 68, 68, 0.5);
+  }
+  50% {
+    box-shadow: 0 8px 32px rgba(255, 68, 68, 0.6),
+                0 0 40px rgba(255, 68, 68, 0.8);
+  }
+}
+
+/* Medium risk styling */
+.risk-zone-alert.risk-medium {
+  border-color: #ffaa00 !important;
+  box-shadow: 0 8px 32px rgba(255, 170, 0, 0.3),
+              0 0 20px rgba(255, 170, 0, 0.4);
+}
+
+.risk-zone-alert.risk-medium .risk-level {
+  color: #ffaa00;
+}
+
+/* Low risk (safe) styling */
+.risk-zone-alert.risk-low {
+  border-color: #44ff44 !important;
+  box-shadow: 0 8px 32px rgba(68, 255, 68, 0.2),
+              0 0 15px rgba(68, 255, 68, 0.3);
+}
+
+.risk-zone-alert.risk-low .risk-level {
+  color: #44ff44;
+}

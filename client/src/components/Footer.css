@@ -1,8 +1,19 @@
 .footer {
-  background: rgba(0, 0, 0, 0.9);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 50%, rgba(240, 147, 251, 0.95) 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
   color: white;
   padding: 3rem 0 1rem;
   margin-top: 4rem;
+  box-shadow: 0 -4px 20px rgba(102, 126, 234, 0.3);
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .footer-content {
@@ -42,12 +53,31 @@
 .footer-section ul li a {
   color: white;
   text-decoration: none;
-  opacity: 0.8;
-  transition: all 0.3s;
+  opacity: 0.9;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  display: inline-block;
+  padding: 0.2rem 0;
+}
+
+.footer-section ul li a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: white;
+  transition: width 0.3s ease;
 }
 
 .footer-section ul li a:hover {
   opacity: 1;
+  transform: translateX(5px);
+}
+
+.footer-section ul li a:hover::after {
+  width: 100%;
   padding-left: 5px;
 }
 

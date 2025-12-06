@@ -1,0 +1,225 @@
+.emergency-contacts-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+}
+
+.contacts-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.contacts-header {
+  margin-bottom: 2rem;
+}
+
+.contacts-header h1 {
+  font-size: 2rem;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.contacts-header p {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.contact-filters {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 0.65rem 1.2rem;
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  background: white;
+  color: #1f2a44;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.filter-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.filter-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 5px 15px rgba(95, 39, 205, 0.3);
+}
+
+.contacts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.contact-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  border-left: 5px solid;
+  transition: all 0.3s;
+}
+
+.contact-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.contact-card.family {
+  border-left-color: #9c27b0;
+}
+
+.contact-card.friend {
+  border-left-color: #2196f3;
+}
+
+.contact-card.authority {
+  border-left-color: #f44336;
+}
+
+.contact-info {
+  flex: 1;
+}
+
+.contact-info h3 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.1rem;
+  color: #1f2a44;
+  font-weight: 700;
+}
+
+.relationship {
+  margin: 0 0 0.25rem 0;
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.phone {
+  margin: 0;
+  color: #1f2a44;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: 'Courier New', monospace;
+}
+
+.contact-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-left: 1.5rem;
+}
+
+.action-call,
+.action-sms {
+  padding: 0.65rem 1rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 0.9rem;
+}
+
+.action-call {
+  background: linear-gradient(135deg, #4caf50, #45a049);
+  color: white;
+}
+
+.action-call:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+}
+
+.action-call:active {
+  transform: translateY(0);
+}
+
+.action-sms {
+  background: linear-gradient(135deg, #2196f3, #1976d2);
+  color: white;
+}
+
+.action-sms:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+}
+
+.action-sms:active {
+  transform: translateY(0);
+}
+
+.no-contacts {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: white;
+  border-radius: 15px;
+  color: #999;
+  font-size: 1rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.contacts-info {
+  background: linear-gradient(135deg, rgba(95, 39, 205, 0.1), rgba(186, 104, 200, 0.1));
+  padding: 1.5rem;
+  border-radius: 15px;
+  border-left: 5px solid var(--primary);
+  text-align: center;
+}
+
+.contacts-info p {
+  margin: 0;
+  color: #1f2a44;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .contacts-container {
+    padding: 1rem;
+  }
+
+  .contacts-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .contact-filters {
+    gap: 0.5rem;
+  }
+
+  .filter-btn {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.85rem;
+  }
+
+  .contact-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .contact-actions {
+    margin-left: 0;
+    margin-top: 1rem;
+    width: 100%;
+  }
+
+  .action-call,
+  .action-sms {
+    flex: 1;
+    text-align: center;
+  }
+}

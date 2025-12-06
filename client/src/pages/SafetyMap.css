@@ -1,0 +1,99 @@
+.safety-map-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+}
+
+.safety-map-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.map-header {
+  margin-bottom: 1.5rem;
+}
+
+.map-header h1 {
+  font-size: 2rem;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.map-header p {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.map-controls {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.control-btn {
+  padding: 0.65rem 1.2rem;
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  background: white;
+  color: #1f2a44;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.control-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.control-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 5px 15px rgba(95, 39, 205, 0.3);
+}
+
+.map-wrapper {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  height: 600px;
+  margin-bottom: 1.5rem;
+}
+
+.map-info {
+  text-align: center;
+  padding: 1rem;
+  background: rgba(95, 39, 205, 0.05);
+  border-radius: 12px;
+  color: #1f2a44;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .safety-map-container {
+    padding: 1rem;
+  }
+
+  .map-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .map-wrapper {
+    height: 400px;
+  }
+
+  .map-controls {
+    gap: 0.5rem;
+  }
+
+  .control-btn {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.85rem;
+  }
+}

@@ -96,7 +96,11 @@ self.addEventListener('fetch', (event: FetchEvent) => {
         // Fallback for navigation requests
         if (request.mode === 'navigate') {
           const cache = await caches.open(CACHE_NAME);
-          return cache.match('/index.html') || new Response('Offline - Please check your connection');
+          const fallbackResponse = await cache.match('/index.html');
+          if (fallbackResponse) {
+            return fallbackResponse;
+          }
+          return new Response('Offline - Please check your connection');
         }
 
         return new Response('Resource not found', {

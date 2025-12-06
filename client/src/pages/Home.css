@@ -28,17 +28,58 @@
 
 .map-section,
 .zones-section {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(30, 41, 59, 0.95);
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
   border-radius: 16px;
   padding: 1.5rem;
   margin-top: 1.5rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.map-section:hover,
+.zones-section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+}
+
+/* Black/Yellow Theme Overrides */
+.home-page {
+  background: linear-gradient(135deg, #0a0a0f 0%, #0f172a 50%, #111827 100%);
+  color: #f8fafc;
+}
+
+.map-section,
+.zones-section {
+  border: 1px solid rgba(246, 195, 67, 0.35);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.65);
+}
+
+.map-section:hover,
+.zones-section:hover {
+  box-shadow: 0 15px 40px rgba(246, 195, 67, 0.35);
+}
+
+.hero-title, .map-section h2, .zones-section h2 { color: #f6c343; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .map-section h2,
 .zones-section h2 {
   margin-bottom: 1rem;
-  color: #111827;
+  color: var(--text-primary);
 }
 
 .map-wrapper {

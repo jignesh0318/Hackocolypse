@@ -1,0 +1,373 @@
+.safety-analysis-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eef2f7 0%, #e4e8f1 100%);
+  padding-bottom: 2rem;
+}
+
+.analysis-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.analysis-header {
+  background: white;
+  padding: 2rem 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+}
+
+.analysis-header h1 {
+  font-size: 2.2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 0.5rem 0;
+  font-weight: 700;
+}
+
+.analysis-header p {
+  color: #666;
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.analysis-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  padding: 0.9rem 1.5rem;
+  background: white;
+  border: 2px solid #e5e5e5;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.tab-btn:hover {
+  border-color: #667eea;
+  color: #667eea;
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+.analysis-content {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+}
+
+.tab-content {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.info-box {
+  background: linear-gradient(135deg, #f0f7ff 0%, #f5f0ff 100%);
+  border-left: 4px solid #667eea;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+}
+
+.info-box p {
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+  color: #1f2a44;
+}
+
+.info-box ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  list-style: none;
+}
+
+.info-box li {
+  margin: 0.6rem 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+/* Route Planner */
+.route-form-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.route-form,
+.report-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.route-form h3,
+.report-form h3 {
+  margin: 0;
+  color: #1f2a44;
+  font-size: 1.3rem;
+}
+
+.form-subtitle {
+  color: #666;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.form-group label {
+  font-weight: 700;
+  color: #1f2a44;
+}
+
+.coord-input {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.coord-input input,
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.85rem 0.95rem;
+  border: 1.5px solid #dfe4ec;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.coord-input input:focus,
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.btn-primary {
+  padding: 0.95rem 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s;
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.route-result,
+.report-status {
+  background: #f8f9fa;
+  border: 1.5px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.route-result.error,
+.report-status.error {
+  background: #fff5f5;
+  border-color: #ff4757;
+}
+
+.error-msg {
+  color: #ff4757;
+  font-weight: 600;
+  margin: 0;
+}
+
+.result-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.recommendation {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1f2a44;
+  padding: 1rem;
+  background: white;
+  border-radius: 10px;
+  border-left: 4px solid #667eea;
+}
+
+.route-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.metric {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: center;
+  border: 1px solid #e5e5e5;
+}
+
+.metric .label {
+  display: block;
+  color: #666;
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+}
+
+.metric .value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #667eea;
+}
+
+.risks {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  border-left: 4px solid #ffa502;
+}
+
+.risks h4 {
+  margin: 0 0 0.8rem 0;
+  color: #1f2a44;
+}
+
+.risks ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.risks li {
+  margin: 0.4rem 0;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+/* Report Form */
+.report-form-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.report-status {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.report-status.success {
+  background: #f0f7f0;
+  border-color: #2ed573;
+}
+
+.report-status p {
+  margin: 0;
+  color: #1f2a44;
+  font-weight: 600;
+}
+
+.report-status.success p {
+  color: #2ed573;
+}
+
+.report-status.error p {
+  color: #ff4757;
+}
+
+.info-text {
+  color: #666;
+  font-weight: 400;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 1024px) {
+  .route-form-container {
+    grid-template-columns: 1fr;
+  }
+
+  .route-metrics {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .analysis-container {
+    padding: 1rem;
+  }
+
+  .analysis-content {
+    padding: 1.5rem 1rem;
+  }
+
+  .analysis-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .analysis-tabs {
+    gap: 0.5rem;
+  }
+
+  .tab-btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .coord-input {
+    grid-template-columns: 1fr;
+  }
+
+  .route-metrics {
+    grid-template-columns: 1fr;
+  }
+}

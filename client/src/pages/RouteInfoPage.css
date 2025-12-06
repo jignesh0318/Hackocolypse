@@ -1,0 +1,20 @@
+.route-info-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eef2f7 0%, #e4e8f1 100%);
+  padding: 1.5rem 1rem 2.5rem;
+}
+
+.route-info-wrapper {
+  max-width: 780px;
+  margin: 1.5rem auto 0;
+}
+
+@media (max-width: 600px) {
+  .route-info-page {
+    padding: 1rem 0.75rem 2rem;
+  }
+
+  .route-info-wrapper {
+    margin-top: 1rem;
+  }
+}

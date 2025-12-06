@@ -1,7 +1,10 @@
-import { MapContainer, TileLayer, Circle, Popup } from 'react-leaflet';
+import { useEffect, useMemo, useState } from 'react';
+import { MapContainer, TileLayer, Polyline, Marker, Circle } from 'react-leaflet';
+import type { LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './Map.css';
 import L from 'leaflet';
+import routeTracker from '../services/routeTracker';
 
 // Fix marker icon issue (guarded so it doesn't throw in edge cases)
 try {
@@ -15,78 +18,102 @@ try {
   console.warn('Leaflet icon override skipped:', e);
 }
 
-interface SafetyZone {
-  id: number;
+type RoutePoint = {
   lat: number;
   lng: number;
-  score: number;
-  name: string;
-}
+  accuracy?: number;
+  timestamp?: number;
+};
+
+const DEFAULT_CENTER: [number, number] = [28.6139, 77.2090];
 
 const Map = () => {
-  // Mock safety zones data
-  const safetyZones: SafetyZone[] = [
-    { id: 1, lat: 28.6139, lng: 77.2090, score: 85, name: 'Connaught Place' },
-    { id: 2, lat: 28.6280, lng: 77.2177, score: 45, name: 'Kashmere Gate' },
-    { id: 3, lat: 28.6517, lng: 77.2219, score: 92, name: 'Mall Road' },
-    { id: 4, lat: 28.5355, lng: 77.3910, score: 35, name: 'Noida Sector 18' },
-    { id: 5, lat: 28.7041, lng: 77.1025, score: 70, name: 'Rohini' },
-  ];
+  const [center, setCenter] = useState<[number, number]>(DEFAULT_CENTER);
+  const [routePoints, setRoutePoints] = useState<RoutePoint[]>([]);
 
-  const getColor = (score: number) => {
-    if (score >= 70) return '#2ed573'; // Green - Safe
-    if (score >= 40) return '#ffa502'; // Yellow - Medium
-    return '#ff4757'; // Red - Danger
-  };
+  // Pull live route data from tracker
+  useEffect(() => {
+    const updateRoute = () => {
+      const data = routeTracker.getRouteData();
+      const pts: RoutePoint[] = data.points.map((p) => ({
+        lat: p.latitude,
+        lng: p.longitude,
+        accuracy: p.accuracy,
+        timestamp: p.timestamp,
+      }));
+      setRoutePoints(pts);
+      if (pts.length) {
+        const last = pts[pts.length - 1];
+        setCenter([last.lat, last.lng]);
+      }
+    };
 
-  const getLabel = (score: number) => {
-    if (score >= 70) return 'SAFE';
-    if (score >= 40) return 'MEDIUM RISK';
-    return 'HIGH RISK';
-  };
+    updateRoute();
+    const interval = setInterval(updateRoute, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Get a starting position for centering if no route points yet
+  useEffect(() => {
+    if (!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const nextCenter: [number, number] = [pos.coords.latitude, pos.coords.longitude];
+        setCenter(nextCenter);
+        if (!routePoints.length) {
+          setRoutePoints([{ lat: nextCenter[0], lng: nextCenter[1], accuracy: pos.coords.accuracy, timestamp: Date.now() }]);
+        }
+      },
+      () => {
+        // Ignore errors; keep default center
+      },
+      { enableHighAccuracy: true, timeout: 8000, maximumAge: 10000 }
+    );
+  }, []);
+
+  const path: LatLngExpression[] = useMemo(
+    () => routePoints.map((p) => [p.lat, p.lng]),
+    [routePoints]
+  );
+
+  const start = routePoints[0];
+  const current = routePoints[routePoints.length - 1];
 
   return (
     <MapContainer
-      center={[28.6139, 77.2090]}
-      zoom={12}
+      center={center}
+      zoom={14}
       style={{ height: '100%', width: '100%' }}
+      scrollWheelZoom
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       />
 
-      {safetyZones.map((zone) => (
-        <Circle
-          key={zone.id}
-          center={[zone.lat, zone.lng]}
-          radius={800}
-          pathOptions={{
-            color: getColor(zone.score),
-            fillColor: getColor(zone.score),
-            fillOpacity: 0.3,
-          }}
-        >
-          <Popup>
-            <div className="popup-content">
-              <h3>{zone.name}</h3>
-              <div className={`safety-score ${getLabel(zone.score).toLowerCase().replace(' ', '-')}`}>
-                <strong>{zone.score}/100</strong>
-              </div>
-              <div
-                className={`safety-label ${getLabel(zone.score).toLowerCase().replace(' ', '-')}-bg`}
-              >
-                {getLabel(zone.score)}
-              </div>
-              <div className="factors">
-                <p>🔦 Lighting: {zone.score > 70 ? 'Good' : zone.score > 40 ? 'Medium' : 'Poor'}</p>
-                <p>👥 Crowd: {zone.score > 70 ? 'High' : zone.score > 40 ? 'Medium' : 'Low'}</p>
-                <p>📹 CCTV: {zone.score > 70 ? 'Present' : 'Limited'}</p>
-              </div>
-            </div>
-          </Popup>
-        </Circle>
-      ))}
+      {/* Tracked route polyline */}
+      {path.length > 1 && (
+        <Polyline positions={path} color="#5f27cd" weight={5} opacity={0.8} />
+      )}
+
+      {/* Start marker */}
+      {start && (
+        <Marker position={[start.lat, start.lng] as [number, number]} />
+      )}
+
+      {/* Current marker with optional accuracy circle */}
+      {current && (
+        <>
+          <Marker position={[current.lat, current.lng] as [number, number]} />
+          {current.accuracy && (
+            <Circle
+              center={[current.lat, current.lng] as [number, number]}
+              radius={current.accuracy}
+              pathOptions={{ color: '#1d4ed8', fillColor: '#3b82f6', fillOpacity: 0.1 }}
+            />
+          )}
+        </>
+      )}
     </MapContainer>
   );
 };

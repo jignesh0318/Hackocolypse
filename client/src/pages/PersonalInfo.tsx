@@ -109,9 +109,6 @@ const PersonalInfo = ({ onComplete, onLogout }: PersonalInfoProps) => {
             <h1>Emergency & Safety Details</h1>
             <p className="subtitle">We only use this to keep you safer and to reach your trusted contacts during an emergency.</p>
           </div>
-          <button className="save-btn" onClick={handleSubmit}>
-            Save & Continue
-          </button>
         </div>
 
         <form className="profile-form" onSubmit={handleSubmit}>
